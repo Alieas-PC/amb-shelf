@@ -3,19 +3,23 @@ var path = require("path");
 var fs = require("fs");
 var router = express.Router();
 
+var p = path.resolve(__dirname, "..", "..", "amiibo-bin");
+
 function filterHiddenStuff(filesArr) {
-  return filesArr.filter(function(e) {
-    return e.indexOf(".") !== 0;
+  return filesArr.filter(function({ name }) {
+    return name.indexOf(".") !== 0;
   });
 }
 
 /* GET home page. */
 router.get("/", function(req, res, next) {
-  var p = path.resolve(__dirname, "..", "..", "amiibo-bin");
-
   const filesArr = fs.readdirSync(p);
 
-  res.render("index", { title: "Express", list: filterHiddenStuff(filesArr) });
+  const list = filesArr.map(e => ({
+    name: e,
+    imgSrc: "/images/bin-img/image1.png"
+  }));
+  res.render("index", { title: "Express", list: filterHiddenStuff(list) });
 });
 
 module.exports = router;

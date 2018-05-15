@@ -1,10 +1,10 @@
 extends layout
 
 block content
-    dl
+  div(class='container')
+    ul(class='card-list')
       each e in list
-        dt
-          img(src='')
-        dd= e
-    dl
+        li
+          img(class='card',src=e.imgSrc)
+          span= e.name
       
