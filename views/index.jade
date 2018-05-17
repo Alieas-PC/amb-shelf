@@ -4,7 +4,23 @@ block content
   div(class='container')
     ul(class='card-list')
       each e in list
-        li
-          img(class='card',src=e.imgSrc)
+        li(onclick='openMakeModal()')
+          //img(class='card',src=e.imgSrc)
+          img(class='card')
           span= e.name
-      
+    div(class='modal hidden',id='make-modal')
+      div(class='modal-frame')
+        div(class='title-bar') Title
+        div(class='content')
+          dl(class='card-info')
+            dt Name
+            dd #Name
+            dt Series
+            dd #Series
+            dt Pic
+            dd
+              img(src='')
+          iframe(id='ifr-making',src='')
+        div(class='foot-bar')
+          button(onclick='make()') Make
+          button(onclick='closeMakeModal()') Close

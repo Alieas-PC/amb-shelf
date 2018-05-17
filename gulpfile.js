@@ -1,15 +1,31 @@
 var gulp = require('gulp');
 var path = require('path');
 
+var postcss = require('gulp-postcss');
+var sourcemaps = require('gulp-sourcemaps');
+var sass = require('gulp-sass');
+var nodemon = require('gulp-nodemon');
 
-gulp.task('css', function () {
-    var postcss    = require('gulp-postcss');
-    var sourcemaps = require('gulp-sourcemaps');
+const cssDirPath = path.resolve(__dirname, './public/stylesheets');
 
-    return gulp.src('')
-        .pipe()
-        .pipe( sourcemaps.init() )
-        .pipe( postcss([ require('precss'), require('autoprefixer') ]) )
-        .pipe( sourcemaps.write('.') )
-        .pipe( gulp.dest('build/') );
+const cssPaths = [path.resolve(cssDirPath, 'style.scss')];
+
+gulp.task('css', function() {
+  return gulp
+    .src(cssPaths)
+    .pipe(sourcemaps.init())
+    .pipe(sass().on('error', sass.logError))
+    .pipe(postcss())
+    .pipe(sourcemaps.write('.'))
+    .pipe(gulp.dest(cssDirPath));
+});
+
+gulp.task('sass:watch', function() {
+  gulp.watch(cssPaths, ['css']);
+});
+
+gulp.task('server', ['sass:watch'], function() {
+  nodemon({
+    script: './bin/www'
+  });
 });

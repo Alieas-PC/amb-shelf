@@ -1,23 +1,79 @@
 body {
   padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-}
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif; }
 
 a {
-  color: #00b7ff;
-}
+  color: #00b7ff; }
 
-.container {
-  ul.card-list {
-    display: flex;
-    flex-wrap: wrap;
-  }
+.hidden {
+  padding: 0 !important;
+  margin: 0 !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 0 !important;
+  height: 0 !important;
+  overflow: hidden !important;
+  opacity: 0 !important; }
 
-  ul.card-list li span {
-    display: block;
-  }
-
-  img.card {
+.container ul.card-list {
+  padding: 0 10%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between; }
+  .container ul.card-list li {
+    margin-left: 10px; }
+    .container ul.card-list li span {
+      text-align: center;
+      display: block; }
+  .container ul.card-list img.card {
     width: 150px;
-  }
-}
+    height: 223.94px; }
+
+.container .card-info {
+  padding: 20px 0 0 20px; }
+  .container .card-info dd {
+    padding: 10px; }
+
+.container .modal {
+  width: 100%;
+  padding-top: 15%;
+  top: 0;
+  bottom: 0;
+  position: fixed;
+  background: rgba(0, 0, 0, 0.7);
+  opacity: 1;
+  transition: opacity .3s; }
+  .container .modal .modal-frame {
+    margin: 0 auto;
+    width: 60%;
+    border-radius: 10px;
+    background: #fff; }
+    .container .modal .modal-frame .title-bar {
+      border-radius: 10px 10px 0 0;
+      height: 50px;
+      line-height: 50px;
+      padding-left: 20px;
+      background: #999;
+      color: #fff; }
+    .container .modal .modal-frame .content {
+      width: 100%; }
+      .container .modal .modal-frame .content > * {
+        width: 100%; }
+    .container .modal .modal-frame .foot-bar {
+      text-align: right;
+      padding: 0 10px 10px 0; }
+      .container .modal .modal-frame .foot-bar button {
+        padding: 5px 10px;
+        line-height: 28px;
+        margin-left: 10px;
+        border: 1px solid #eee;
+        border-radius: 4px;
+        outline: none;
+        box-shadow: 1px 1px #eee;
+        transition: color .3s; }
+        .container .modal .modal-frame .foot-bar button:hover {
+          background: #666;
+          color: #fff;
+          transition: background-color .3s, color .3s; }
+
+/*# sourceMappingURL=style.css.map */

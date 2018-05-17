@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node ./bin/www",
     "watch-css": "postcss public/stylesheets/style.scss --config postcss.config.js -w -o public/stylesheets/style.css | node-sass",
-    "dev": "cross-env PORT=3001 nodemon ./bin/www"
+    "dev": "cross-env PORT=3001 gulp server"
   },
   "dependencies": {
     "cookie-parser": "~1.4.3",
@@ -19,10 +19,10 @@
     "autoprefixer": "^8.5.0",
     "cross-env": "^5.1.5",
     "gulp": "^3.9.1",
-    "node-sass": "^4.9.0",
-    "nodemon": "^1.17.4",
-    "postcss-cli": "^5.0.0",
-    "postcss-scss": "^1.0.5"
+    "gulp-nodemon": "^2.2.1",
+    "gulp-postcss": "^7.0.1",
+    "gulp-sass": "^4.0.1",
+    "gulp-sourcemaps": "^2.6.4"
   },
   "nodemonConfig": {
     "watch": [

@@ -38,10 +38,10 @@ router.get('/', function(req, res, next) {
 });
 
 /** spwan a child process to execute amiibo making program */
-router.get('/makeAmiiboCard', function(req, res, next) {
+router.get('/make-amiibo-card', function(req, res, next) {
   res.set('Content-Type', 'text/html');
   dataTemp = [];
-  
+
   const exec = childp.execFile(makingProgramPath);
   exec.stdout.on('data', data => {
     res.write(`<li style="color:#444">${data}</li>`);
@@ -79,10 +79,6 @@ router.get('/kill-other-makerp', function(req, res, next) {
         return;
       }
 
-      console.log('stdout', stdout);
-
-      console.log('stderr', stderr);
-
       if (stdout && stdout.trim() > '2') {
         console.log('more than one processes are running, kill anothor one!');
 
@@ -95,10 +91,26 @@ router.get('/kill-other-makerp', function(req, res, next) {
   );
 });
 
+router.get('/check-if-any-making-process', function(req, res, next) {
+  childp.exec(
+    `ps -ef|grep "/bin/bash ${makingProgramPath}"|awk 'END { print NR }'`,
+    (err, stdout, stderr) => {
+      if (err) {
+        next(err);
+        return;
+      }
+
+      res.json({
+        processNum: stdout.trim()
+      });
+    }
+  );
+});
+
 /** get progres of the making execution  */
 router.get('/progress', function(req, res, next) {
   res.json({
-    progress: ((dataTemp.length / MAX_DATA_LEN) * 100).toFixed(1)
+    progress: (dataTemp.length / MAX_DATA_LEN * 100).toFixed(1)
   });
 });
 
