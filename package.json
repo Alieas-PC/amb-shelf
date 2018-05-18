@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
+    "build": "gulp css",
     "watch-css": "postcss public/stylesheets/style.scss --config postcss.config.js -w -o public/stylesheets/style.css | node-sass",
     "dev": "cross-env PORT=3001 gulp server"
   },
