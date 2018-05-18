@@ -19,25 +19,29 @@ a {
 }
 
 .container {
-  nav.series {
-    padding: 0 10%;
+  div.top {
     background: #00b7ff;
-    height: 50px;
-    margin-bottom: 20px;
+    nav.series {
+      padding: 0 10%;
+      height: 50px;
+      min-width: 840px;
+      max-width: 1443px;
+      margin: 0 auto 20px;
 
-    a {
-      line-height: 50px;
-      padding: 0 20px;
-      float: left;
-      cursor: pointer;
-      color: #fff;
+      a {
+        line-height: 50px;
+        padding: 0 20px;
+        float: left;
+        cursor: pointer;
+        color: #fff;
 
-      &:link {
-        text-decoration: none;
-      }
+        &:link {
+          text-decoration: none;
+        }
 
-      &:hover {
-        background: #77caeb;
+        &:hover {
+          background: #77caeb;
+        }
       }
     }
   }
@@ -48,12 +52,17 @@ a {
     flex-wrap: wrap;
     min-width: 840px;
     max-width: 1443px;
+    margin: 0 auto;
 
     li {
       margin-left: 10px;
       margin-bottom: 20px;
 
       span {
+        width: 150px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
         text-align: center;
         display: block;
       }
@@ -83,9 +92,9 @@ a {
     top: 0;
     bottom: 0;
     position: fixed;
-    background: rgba(0,0,0,.7);
+    background: rgba(0, 0, 0, 0.7);
     opacity: 1;
-    transition: opacity .3s;
+    transition: opacity 0.3s;
 
     .modal-frame {
       margin: 0 auto;
@@ -123,17 +132,15 @@ a {
           border-radius: 4px;
           outline: none;
           box-shadow: 1px 1px #eee;
-          transition: color .3s;
+          transition: color 0.3s;
 
           &:hover {
             background: #666;
             color: #fff;
-            transition: background-color .3s, color .3s;
+            transition: background-color 0.3s, color 0.3s;
           }
         }
-
       }
     }
   }
-
 }

@@ -15,32 +15,40 @@ a {
   overflow: hidden !important;
   opacity: 0 !important; }
 
-.container nav.series {
-  padding: 0 10%;
-  background: #00b7ff;
-  height: 50px;
-  margin-bottom: 20px; }
-  .container nav.series a {
-    line-height: 50px;
-    padding: 0 20px;
-    float: left;
-    cursor: pointer;
-    color: #fff; }
-    .container nav.series a:link {
-      text-decoration: none; }
-    .container nav.series a:hover {
-      background: #77caeb; }
+.container div.top {
+  background: #00b7ff; }
+  .container div.top nav.series {
+    padding: 0 10%;
+    height: 50px;
+    min-width: 840px;
+    max-width: 1443px;
+    margin: 0 auto 20px; }
+    .container div.top nav.series a {
+      line-height: 50px;
+      padding: 0 20px;
+      float: left;
+      cursor: pointer;
+      color: #fff; }
+      .container div.top nav.series a:link {
+        text-decoration: none; }
+      .container div.top nav.series a:hover {
+        background: #77caeb; }
 
 .container ul.card-list {
   padding: 0 10%;
   display: flex;
   flex-wrap: wrap;
   min-width: 840px;
-  max-width: 1443px; }
+  max-width: 1443px;
+  margin: 0 auto; }
   .container ul.card-list li {
     margin-left: 10px;
     margin-bottom: 20px; }
     .container ul.card-list li span {
+      width: 150px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
       text-align: center;
       display: block; }
   .container ul.card-list img.card {
@@ -63,7 +71,7 @@ a {
   position: fixed;
   background: rgba(0, 0, 0, 0.7);
   opacity: 1;
-  transition: opacity .3s; }
+  transition: opacity 0.3s; }
   .container .modal .modal-frame {
     margin: 0 auto;
     width: 60%;
@@ -91,10 +99,10 @@ a {
         border-radius: 4px;
         outline: none;
         box-shadow: 1px 1px #eee;
-        transition: color .3s; }
+        transition: color 0.3s; }
         .container .modal .modal-frame .foot-bar button:hover {
           background: #666;
           color: #fff;
-          transition: background-color .3s, color .3s; }
+          transition: background-color 0.3s, color 0.3s; }
 
 /*# sourceMappingURL=style.css.map */
