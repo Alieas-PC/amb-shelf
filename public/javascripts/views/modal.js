@@ -1,4 +1,9 @@
-const Modal = Backbone.View.extend({
+const Modal = Backbone.Model.extend({
+    
+});
+
+
+const ModalView = Backbone.View.extend({
   tagName: 'div',
   className: 'modal',
   events: {
