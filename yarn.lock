@@ -3220,6 +3220,10 @@ scss-tokenizer@^0.2.3:
     js-base64 "^2.1.8"
     source-map "^0.4.2"
 
+semantic-ui-progress@^2.3.1:
+  version "2.3.1"
+  resolved "https://npm.zhonganonline.com/semantic-ui-progress/-/semantic-ui-progress-2.3.1.tgz#5300468f2df05f841028c53437cdef06b8312ce7"
+
 semver-diff@^2.0.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/semver-diff/-/semver-diff-2.1.0.tgz#4bbb8437c8d37e4b0cf1a68fd726ec6d645d6d36"

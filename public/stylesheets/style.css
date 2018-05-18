@@ -15,13 +15,31 @@ a {
   overflow: hidden !important;
   opacity: 0 !important; }
 
+.container nav.series {
+  padding: 0 10%;
+  background: #00b7ff;
+  height: 50px;
+  margin-bottom: 20px; }
+  .container nav.series a {
+    line-height: 50px;
+    padding: 0 20px;
+    float: left;
+    cursor: pointer;
+    color: #fff; }
+    .container nav.series a:link {
+      text-decoration: none; }
+    .container nav.series a:hover {
+      background: #77caeb; }
+
 .container ul.card-list {
   padding: 0 10%;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between; }
+  min-width: 840px;
+  max-width: 1443px; }
   .container ul.card-list li {
-    margin-left: 10px; }
+    margin-left: 10px;
+    margin-bottom: 20px; }
     .container ul.card-list li span {
       text-align: center;
       display: block; }
@@ -34,9 +52,12 @@ a {
   .container .card-info dd {
     padding: 10px; }
 
+.container #ifr-making {
+  padding-left: 20px; }
+
 .container .modal {
   width: 100%;
-  padding-top: 15%;
+  padding-top: 100px;
   top: 0;
   bottom: 0;
   position: fixed;

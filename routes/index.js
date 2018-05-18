@@ -3,6 +3,14 @@ var path = require('path');
 var fs = require('fs');
 var childp = require('child_process');
 
+var {
+  writeStyle,
+  writeScript,
+  writeTag,
+  writeTagStart,
+  writeTagEnd
+} = require('../util/writeTag');
+
 var router = express.Router();
 
 var amiiBinDirPath = path.resolve(
@@ -20,6 +28,8 @@ var makingProgramPath = path.resolve(
 var dataTemp = [];
 
 const MAX_DATA_LEN = 540;
+
+var isRunning = false;
 
 function filterHiddenStuff(filesArr) {
   return filesArr.filter(function({ name }) {
@@ -42,9 +52,17 @@ router.get('/make-amiibo-card', function(req, res, next) {
   res.set('Content-Type', 'text/html');
   dataTemp = [];
 
+  writeStyle(res, '/stylesheets/reset.css');
+
+  writeTagStart(res, 'ul');
+
+  isRunning = true;
+
   const exec = childp.execFile(makingProgramPath);
+
   exec.stdout.on('data', data => {
-    res.write(`<li style="color:#444">${data}</li>`);
+    data = data.replace(/\n/g, '<br>');
+    writeTag(res, 'li', data, { style: 'color:#444' });
 
     const group = data.match(
       /Writing to (\d+): (\d+) (\d+) (\d+) (\d+) \.\.\.Done/
@@ -55,21 +73,25 @@ router.get('/make-amiibo-card', function(req, res, next) {
     }
   });
   exec.stderr.on('data', data => {
-    res.write(`<li style="color:#F00">${data}</li>`);
+    writeTag(res, 'li', data, { style: 'color:#444' });
   });
   exec.on('close', code => {
     console.log('All data', dataTemp, 'with code', code);
 
     if (code === null) {
-      res.write(
-        `<li style="color:#F00">The working process has just been terminated.</li>`
-      );
+      writeTag(res, 'li', 'The working process has just been terminated.', {
+        style: 'color:#F00'
+      });
     }
+    writeTagEnd(res, 'ul');
+
+    isRunning = false;
 
     res.end();
   });
 });
 
+/** kill running making process  */
 router.get('/kill-other-makerp', function(req, res, next) {
   childp.exec(
     `ps -ef|grep "/bin/bash ${makingProgramPath}"|awk 'END { print NR }'`,
@@ -91,6 +113,7 @@ router.get('/kill-other-makerp', function(req, res, next) {
   );
 });
 
+/** check if there's making process running */
 router.get('/check-if-any-making-process', function(req, res, next) {
   childp.exec(
     `ps -ef|grep "/bin/bash ${makingProgramPath}"|awk 'END { print NR }'`,
@@ -110,7 +133,9 @@ router.get('/check-if-any-making-process', function(req, res, next) {
 /** get progres of the making execution  */
 router.get('/progress', function(req, res, next) {
   res.json({
-    progress: (dataTemp.length / MAX_DATA_LEN * 100).toFixed(1)
+    progress: isRunning
+      ? (dataTemp.length / MAX_DATA_LEN * 100).toFixed(1)
+      : 100
   });
 });
 

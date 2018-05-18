@@ -1,9 +1,3 @@
-paceOptions = {
-  elements: {
-    selectors: ['#ifr-making']
-  }
-}
-
 function openMakeModal() {
   $('#make-modal').removeClass('hidden');
 }
@@ -16,7 +10,7 @@ function make() {
   checkToMake(
     function() {
       const c = confirm(
-        "There's existed running process. Do you want to stop it before start making?"
+        "There's an existed running process. Do you want to stop it before start making?"
       );
 
       if (c) {
@@ -27,7 +21,13 @@ function make() {
                 alert('Process was not killed.');
               },
               function() {
-                $('#ifr-making').attr('src', '/make-amiibo-card');
+                $('#ifr-making')
+                  .on('load', () => {
+                    setTimeout(() => stopAutoScrolling(), 500);
+                  })
+                  .attr('src', '/make-amiibo-card');
+                startAutoScrolling();
+                setIntervalFroProgress();
               }
             );
           }, 1000);
@@ -35,7 +35,13 @@ function make() {
       }
     },
     function() {
-      $('#ifr-making').attr('src', '/make-amiibo-card');
+      $('#ifr-making')
+        .on('load', () => {
+          setTimeout(() => stopAutoScrolling(), 500);
+        })
+        .attr('src', '/make-amiibo-card');
+      startAutoScrolling();
+      setIntervalFroProgress();
     }
   );
 }
@@ -48,4 +54,34 @@ function checkToMake(exist, notExist) {
       notExist();
     }
   });
+}
+__interval = null;
+function startAutoScrolling() {
+  clearInterval(__interval);
+
+  __interval = setInterval(() => {
+    const body = $('#ifr-making')[0].contentDocument.body;
+
+    body.scrollTop = body.scrollHeight;
+  }, 500);
+}
+
+function stopAutoScrolling() {
+  clearInterval(__interval);
+}
+
+__intervalForProgress = null;
+function setIntervalFroProgress() {
+  clearInterval(__intervalForProgress);
+
+  __intervalForProgress = setInterval(() => {
+    $.get('/progress', function(data) {
+      $('#progress-bar').progress({
+        percent: data.progress
+      });
+      if (data.progress >= 100) {
+        clearInterval(__intervalForProgress);
+      }
+    });
+  }, 500);
 }

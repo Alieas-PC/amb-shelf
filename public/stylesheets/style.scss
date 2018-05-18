@@ -19,14 +19,39 @@ a {
 }
 
 .container {
+  nav.series {
+    padding: 0 10%;
+    background: #00b7ff;
+    height: 50px;
+    margin-bottom: 20px;
+
+    a {
+      line-height: 50px;
+      padding: 0 20px;
+      float: left;
+      cursor: pointer;
+      color: #fff;
+
+      &:link {
+        text-decoration: none;
+      }
+
+      &:hover {
+        background: #77caeb;
+      }
+    }
+  }
+
   ul.card-list {
     padding: 0 10%;
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    min-width: 840px;
+    max-width: 1443px;
 
     li {
       margin-left: 10px;
+      margin-bottom: 20px;
 
       span {
         text-align: center;
@@ -48,9 +73,13 @@ a {
     }
   }
 
+  #ifr-making {
+    padding-left: 20px;
+  }
+
   .modal {
     width: 100%;
-    padding-top: 15%;
+    padding-top: 100px;
     top: 0;
     bottom: 0;
     position: fixed;
