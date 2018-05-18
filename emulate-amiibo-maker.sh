@@ -1,5 +1,6 @@
 #!/bin/bash
-
+echo "Load $1"
+echo "Start making $2"
 echo 'NFC device found.'
 sleep 1
 echo 'Put the blank ntag215 on the NFC shield.'

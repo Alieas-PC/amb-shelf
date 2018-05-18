@@ -44,11 +44,12 @@ router.get("/", function(req, res, next) {
     name: e,
     imgSrc: "/images/bin-img/" + e.replace("bin", "png")
   }));
-  res.render("index", { title: "Express", list: filterHiddenStuff(list) });
+  res.render("index", { title: "Amiibo Shelf", list: filterHiddenStuff(list) });
 });
 
 /** spwan a child process to execute amiibo making program */
 router.get("/make-amiibo-card", function(req, res, next) {
+  const name = req.query.name;
   res.set("Content-Type", "text/html");
   dataTemp = [];
 
@@ -58,7 +59,15 @@ router.get("/make-amiibo-card", function(req, res, next) {
 
   isRunning = true;
 
-  const exec = childp.execFile(makingProgramPath);
+  const exec = childp.exec(
+    makingProgramPath +
+      " key_retail.bin" +
+      " " +
+      path.resolve(amiiBinDirPath, name.replace(/\s/g, "\\ ")),
+    {
+      cwd: path.resolve(__dirname, "..")
+    }
+  );
 
   exec.stdout.on("data", data => {
     data = data.replace(/\n/g, "<br>");

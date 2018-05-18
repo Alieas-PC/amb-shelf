@@ -10,7 +10,7 @@ block content
         a(href='/Splatoo') Splatoo
     ul(class='card-list')
       each e in list
-        li(onclick='openMakeModal()')
+        li(onclick='openMakeModal("' + e.name + '")')
           //img(class='card',src=e.imgSrc)
           img(class='card',src=e.imgSrc)
           span= e.name

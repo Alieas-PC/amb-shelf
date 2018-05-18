@@ -1,9 +1,11 @@
-function openMakeModal() {
-  $('#make-modal').removeClass('hidden');
+curName = null;
+function openMakeModal(name) {
+  $("#make-modal").removeClass("hidden");
+  curName = name;
 }
 
 function closeMakeModal() {
-  $('#make-modal').addClass('hidden');
+  $("#make-modal").addClass("hidden");
 }
 
 function make() {
@@ -14,18 +16,21 @@ function make() {
       );
 
       if (c) {
-        $.get('/kill-other-makerp', function() {
+        $.get("/kill-other-makerp", function() {
           setTimeout(function() {
             checkToMake(
               function() {
-                alert('Process was not killed.');
+                alert("Process was not killed.");
               },
               function() {
-                $('#ifr-making')
-                  .on('load', () => {
+                $("#ifr-making")
+                  .on("load", () => {
                     setTimeout(() => stopAutoScrolling(), 500);
                   })
-                  .attr('src', '/make-amiibo-card');
+                  .attr(
+                    "src",
+                    "/make-amiibo-card?name=" + encodeURIComponent(curName)
+                  );
                 startAutoScrolling();
                 setIntervalFroProgress();
               }
@@ -35,11 +40,11 @@ function make() {
       }
     },
     function() {
-      $('#ifr-making')
-        .on('load', () => {
+      $("#ifr-making")
+        .on("load", () => {
           setTimeout(() => stopAutoScrolling(), 500);
         })
-        .attr('src', '/make-amiibo-card');
+        .attr("src", "/make-amiibo-card?name=" + encodeURIComponent(curName));
       startAutoScrolling();
       setIntervalFroProgress();
     }
@@ -47,8 +52,8 @@ function make() {
 }
 
 function checkToMake(exist, notExist) {
-  $.get('/check-if-any-making-process', function(data) {
-    if (data.processNum > '2') {
+  $.get("/check-if-any-making-process", function(data) {
+    if (data.processNum > "2") {
       exist();
     } else {
       notExist();
@@ -60,7 +65,7 @@ function startAutoScrolling() {
   clearInterval(__interval);
 
   __interval = setInterval(() => {
-    const body = $('#ifr-making')[0].contentDocument.body;
+    const body = $("#ifr-making")[0].contentDocument.body;
 
     body.scrollTop = body.scrollHeight;
   }, 500);
@@ -75,8 +80,8 @@ function setIntervalFroProgress() {
   clearInterval(__intervalForProgress);
 
   __intervalForProgress = setInterval(() => {
-    $.get('/progress', function(data) {
-      $('#progress-bar').progress({
+    $.get("/progress", function(data) {
+      $("#progress-bar").progress({
         percent: data.progress
       });
       if (data.progress >= 100) {
