@@ -13,17 +13,21 @@ var {
 
 var router = express.Router();
 
+var rootPath = path.resolve(__dirname, "..");
+
 var amiiBinDirPath = path.resolve(
-  __dirname,
-  "..",
+  rootPath,
   process.env.npm_package_config_amiiBinDirPath
 );
 
-var makingProgramPath = path.resolve(
-  __dirname,
-  "..",
-  process.env.npm_package_config_makingProgramPath
+var makingProgram = path.resolve(
+  rootPath,
+  process.env.npm_package_config_makingProgram
 );
+
+var cwd = path.resolve(rootPath, process.env.npm_package_config_cwd);
+
+var keyPath = path.resolve(rootPath, process.env.npm_package_config_keyPath);
 
 var dataTemp = [];
 
@@ -60,12 +64,13 @@ router.get("/make-amiibo-card", function(req, res, next) {
   isRunning = true;
 
   const exec = childp.exec(
-    makingProgramPath +
-      " key_retail.bin" +
+    makingProgram +
+      " " +
+      keyPath +
       " " +
       path.resolve(amiiBinDirPath, name.replace(/\s/g, "\\ ")),
     {
-      cwd: path.resolve(__dirname, "..")
+      cwd: path.resolve(__dirname, cwd)
     }
   );
 
@@ -103,7 +108,7 @@ router.get("/make-amiibo-card", function(req, res, next) {
 /** kill running making process  */
 router.get("/kill-other-makerp", function(req, res, next) {
   childp.exec(
-    `ps -ef|grep "/bin/bash ${makingProgramPath}"|awk 'END { print NR }'`,
+    `ps -ef|grep "/bin/bash ${makingProgram}"|awk 'END { print NR }'`,
     (err, stdout, stderr) => {
       if (err) {
         next(err);
@@ -114,7 +119,7 @@ router.get("/kill-other-makerp", function(req, res, next) {
         console.log("more than one processes are running, kill anothor one!");
 
         childp.exec(
-          `ps -ef|grep '/bin/bash ${makingProgramPath}'|awk ' NR == 1 { print $2 }'|xargs kill -9`
+          `ps -ef|grep '/bin/bash ${makingProgram}'|awk ' NR == 1 { print $2 }'|xargs kill -9`
         );
       }
       res.end("Done");
@@ -125,7 +130,7 @@ router.get("/kill-other-makerp", function(req, res, next) {
 /** check if there's making process running */
 router.get("/check-if-any-making-process", function(req, res, next) {
   childp.exec(
-    `ps -ef|grep "/bin/bash ${makingProgramPath}"|awk 'END { print NR }'`,
+    `ps -ef|grep "/bin/bash ${makingProgram}"|awk 'END { print NR }'`,
     (err, stdout, stderr) => {
       if (err) {
         next(err);
