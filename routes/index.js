@@ -63,6 +63,15 @@ router.get("/make-amiibo-card", function(req, res, next) {
 
   isRunning = true;
 
+  console.log(
+    "exec =>",
+    makingProgram,
+    keyPath,
+    path.resolve(amiiBinDirPath, name.replace(/\s/g, "\\ "))
+  );
+
+  console.log("cwd =>", path.resolve(__dirname, cwd));
+
   const exec = childp.exec(
     makingProgram +
       " " +
