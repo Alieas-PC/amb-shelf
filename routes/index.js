@@ -138,6 +138,11 @@ router.get("/kill-other-makerp", function(req, res, next) {
 
 /** check if there's making process running */
 router.get("/check-if-any-making-process", function(req, res, next) {
+  console.log(
+    "exec =>",
+    `ps -ef|grep "/bin/bash ${makingProgram}"|awk 'END { print NR }'`
+  );
+
   childp.exec(
     `ps -ef|grep "/bin/bash ${makingProgram}"|awk 'END { print NR }'`,
     (err, stdout, stderr) => {
