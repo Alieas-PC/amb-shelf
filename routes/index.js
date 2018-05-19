@@ -90,7 +90,7 @@ router.get("/make-amiibo-card", function(req, res, next) {
     writeTag(res, "li", data, { style: "color:#444" });
 
     const group = data.match(
-      /Writing to (\d+): (\d+) (\d+) (\d+) (\d+) \.\.\.Done/
+      /Writing to (\d+): (\S+) (\S+) (\S+) (\S+)\.\.\./
     );
 
     if (group) {
@@ -119,7 +119,7 @@ router.get("/make-amiibo-card", function(req, res, next) {
 /** kill running making process  */
 router.get("/kill-other-makerp", function(req, res, next) {
   childp.exec(`ps -ef|grep '${checkPs}'|awk '{ print $2 }'|xargs kill -9`);
-  
+
   res.end("Done");
 });
 
