@@ -118,32 +118,14 @@ router.get("/make-amiibo-card", function(req, res, next) {
 
 /** kill running making process  */
 router.get("/kill-other-makerp", function(req, res, next) {
-  childp.exec(
-    `ps -ef|grep "/bin/bash ${makingProgram}"|awk 'END { print NR }'`,
-    (err, stdout, stderr) => {
-      if (err) {
-        next(err);
-        return;
-      }
-
-      if (stdout && stdout.trim() > "1") {
-        console.log("more than one processes are running, kill anothor one!");
-
-        childp.exec(
-          `ps -ef|grep '/bin/bash ${makingProgram}'|awk ' NR == 1 { print $2 }'|xargs kill -9`
-        );
-      }
-      res.end("Done");
-    }
-  );
+  childp.exec(`ps -ef|grep '${checkPs}'|awk '{ print $2 }'|xargs kill -9`);
+  
+  res.end("Done");
 });
 
 /** check if there's making process running */
 router.get("/check-if-any-making-process", function(req, res, next) {
-  console.log(
-    "exec =>",
-    `ps -ef|grep "${checkPs}"|awk 'END { print NR }'`
-  );
+  console.log("exec =>", `ps -ef|grep "${checkPs}"|awk 'END { print NR }'`);
 
   childp.exec(
     `ps -ef|grep "${checkPs}"|awk 'END { print NR }'`,

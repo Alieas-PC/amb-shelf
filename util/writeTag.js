@@ -22,7 +22,7 @@ function writeTagEnd(writable, tag) {
 
 function concatAttr(attr = {}) {
   return Object.entries(attr)
-    .map(([key, value]) => key + ':"' + value + '"')
+    .map(([key, value]) => key + '="' + value + '"')
     .join(' ');
 }
 
