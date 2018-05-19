@@ -33,6 +33,7 @@
     "amiiBinDirPath": "../amii-bin",
     "makingProgram": "emulate-amiibo-maker.sh",
     "cwd": "../pimiibo",
-    "keyPath": "../key_retail.bin"
+    "keyPath": "../key_retail.bin",
+    "checkPs": "emulate-amiibo-maker.sh" 
   }
 }

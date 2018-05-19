@@ -29,6 +29,8 @@ var cwd = path.resolve(rootPath, process.env.npm_package_config_cwd);
 
 var keyPath = path.resolve(rootPath, process.env.npm_package_config_keyPath);
 
+var checkPs = process.env.npm_package_config_checkPs;
+
 var dataTemp = [];
 
 const MAX_DATA_LEN = 540;
@@ -124,7 +126,7 @@ router.get("/kill-other-makerp", function(req, res, next) {
         return;
       }
 
-      if (stdout && stdout.trim() > "2") {
+      if (stdout && stdout.trim() > "1") {
         console.log("more than one processes are running, kill anothor one!");
 
         childp.exec(
@@ -140,11 +142,11 @@ router.get("/kill-other-makerp", function(req, res, next) {
 router.get("/check-if-any-making-process", function(req, res, next) {
   console.log(
     "exec =>",
-    `ps -ef|grep "/bin/bash ${makingProgram}"|awk 'END { print NR }'`
+    `ps -ef|grep "${checkPs}"|awk 'END { print NR }'`
   );
 
   childp.exec(
-    `ps -ef|grep "/bin/bash ${makingProgram}"|awk 'END { print NR }'`,
+    `ps -ef|grep "${checkPs}"|awk 'END { print NR }'`,
     (err, stdout, stderr) => {
       if (err) {
         next(err);
