@@ -53,7 +53,7 @@ function make() {
 
 function checkToMake(exist, notExist) {
   $.get("/check-if-any-making-process", function(data) {
-    if (data.processNum > "2") {
+    if (data.processNum >= "2") {
       exist();
     } else {
       notExist();

@@ -31,7 +31,7 @@
   },
   "config": {
     "amiiBinDirPath": "../amii-bin",
-    "makingProgram": "stdbuf -o0 emulate-amiibo-maker.sh",
+    "makingProgram": "emulate-amiibo-maker.sh",
     "cwd": "../pimiibo",
     "keyPath": "../key_retail.bin"
   }
