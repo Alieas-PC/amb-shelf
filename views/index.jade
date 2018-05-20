@@ -10,28 +10,13 @@ block content
         a(href='/Splatoo') Splatoo
     ul(class='card-list')
       each e in list
-        li(onclick='openMakeModal("' + e.name + '")')
-          //img(class='card',src=e.imgSrc)
-          img(class='card',src=e.imgSrc)
+        li
+          div(class='clip-wrap',onmouseenter='showBtn(event)',onmouseleave='hideBtn(event)')
+            div(class='btn-group hidden')
+              button(onclick='markWithGot(\'' + e.name + '\')') Mark with Got
+              button(onclick='openMakeModal(' + JSON.stringify(e) + ')') Make
+            div(class='has-got-flag has-mask')
+              div(class='overlay')
+              img(src=e.imgSrc)
+          
           span= e.name
-    div(class='modal hidden',id='make-modal')
-      div(class='modal-frame')
-        div(class='title-bar') Title
-        div(class='content')
-          dl(class='card-info')
-            dt Name
-            dd #Name
-            dt Series
-            dd #Series
-            dt Pic
-            dd
-              img(src='')
-            dt Making progress
-            dd
-              div(class='ui indicating progress',id='progress-bar')
-                div(class='bar')
-                  div(class='progress')
-          iframe(id='ifr-making',src='')
-        div(class='foot-bar')
-          button(onclick='make()') Make
-          button(onclick='closeMakeModal()') Close

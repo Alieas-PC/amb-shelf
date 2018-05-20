@@ -1,54 +1,113 @@
-curName = null;
-function openMakeModal(name) {
-  $("#make-modal").removeClass("hidden");
-  curName = name;
-}
+const cardModel = new CardModel({});
 
-function closeMakeModal() {
-  $("#make-modal").addClass("hidden");
-}
+new MakeModalView({
+  model: cardModel,
+  make: function() {
+    __interval = null;
+    __intervalForProgress = null;
 
-function make() {
-  checkToMake(
-    function() {
-      const c = confirm(
-        "There's an existed running process. Do you want to stop it before start making?"
-      );
+    function startAutoScrolling() {
+      clearInterval(__interval);
 
-      if (c) {
-        $.get("/kill-other-makerp", function() {
-          setTimeout(function() {
-            checkToMake(
-              function() {
-                alert("Process was not killed.");
-              },
-              function() {
-                $("#ifr-making")
-                  .on("load", () => {
-                    setTimeout(() => stopAutoScrolling(), 500);
-                  })
-                  .attr(
-                    "src",
-                    "/make-amiibo-card?name=" + encodeURIComponent(curName)
-                  );
-                startAutoScrolling();
-                setIntervalFroProgress();
-              }
-            );
-          }, 1000);
+      __interval = setInterval(() => {
+        const body = $("#ifr-making")[0].contentDocument.body;
+
+        body.scrollTop = body.scrollHeight;
+      }, 500);
+    }
+
+    function stopAutoScrolling() {
+      clearInterval(__interval);
+    }
+
+    function setIntervalFroProgress() {
+      clearInterval(__intervalForProgress);
+
+      __intervalForProgress = setInterval(() => {
+        $.get("/progress", function(data) {
+          $("#progress-bar").progress({
+            percent: data.progress
+          });
+          if (data.progress >= 100) {
+            clearInterval(__intervalForProgress);
+          }
+        });
+      }, 500);
+    }
+
+    checkToMake(
+      function() {
+        const c = confirm(
+          "There's an existed running process. Do you want to stop it before start making?"
+        );
+
+        if (c) {
+          $.get("/kill-other-makerp", function() {
+            setTimeout(function() {
+              checkToMake(
+                function() {
+                  alert("Process was not killed.");
+                },
+                function() {
+                  $("#ifr-making")
+                    .on("load", () => {
+                      setTimeout(() => stopAutoScrolling(), 500);
+                    })
+                    .attr(
+                      "src",
+                      "/make-amiibo-card?name=" +
+                        encodeURIComponent(cardModel.get("name"))
+                    );
+                  startAutoScrolling();
+                  setIntervalFroProgress();
+                }
+              );
+            }, 1000);
+          });
+        }
+      },
+      function() {
+        $("#ifr-making")
+          .on("load", () => {
+            setTimeout(() => stopAutoScrolling(), 500);
+          })
+          .attr(
+            "src",
+            "/make-amiibo-card?name=" +
+              encodeURIComponent(cardModel.get("name"))
+          );
+        startAutoScrolling();
+        setIntervalFroProgress();
+      }
+    );
+  },
+  close: function() {
+    checkToMake(
+      function() {
+        const sure = confirm("Are you sure to stop current making process?");
+        if (sure) {
+          $.get("/kill-other-makerp");
+          cardModel.set({
+            isOpen: false
+          });
+        }
+      },
+      function() {
+        cardModel.set({
+          isOpen: false
         });
       }
-    },
-    function() {
-      $("#ifr-making")
-        .on("load", () => {
-          setTimeout(() => stopAutoScrolling(), 500);
-        })
-        .attr("src", "/make-amiibo-card?name=" + encodeURIComponent(curName));
-      startAutoScrolling();
-      setIntervalFroProgress();
-    }
-  );
+    );
+  }
+}).attchTo("body");
+
+function openMakeModal(item) {
+  cardModel.set({
+    isOpen: true,
+    name: item.name,
+    series: "Zelda",
+    imgSrc: item.imgSrc
+  });
 }
 
 function checkToMake(exist, notExist) {
@@ -60,33 +119,19 @@ function checkToMake(exist, notExist) {
     }
   });
 }
-__interval = null;
-function startAutoScrolling() {
-  clearInterval(__interval);
 
-  __interval = setInterval(() => {
-    const body = $("#ifr-making")[0].contentDocument.body;
-
-    body.scrollTop = body.scrollHeight;
-  }, 500);
+function showBtn(e) {
+  $(e.target)
+    .find(".btn-group")
+    .removeClass("hidden");
 }
 
-function stopAutoScrolling() {
-  clearInterval(__interval);
+function hideBtn(e) {
+  $(e.target)
+    .find(".btn-group")
+    .addClass("hidden");
 }
 
-__intervalForProgress = null;
-function setIntervalFroProgress() {
-  clearInterval(__intervalForProgress);
-
-  __intervalForProgress = setInterval(() => {
-    $.get("/progress", function(data) {
-      $("#progress-bar").progress({
-        percent: data.progress
-      });
-      if (data.progress >= 100) {
-        clearInterval(__intervalForProgress);
-      }
-    });
-  }, 500);
+function markWithGot(name) {
+  $.get("/mark-with-got?name=" + encodeURIComponent(name));
 }

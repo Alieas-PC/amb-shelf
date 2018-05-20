@@ -1,0 +1,37 @@
+<div class="modal-frame">
+    <div class="title-bar">Card information</div>
+    <div class="content">
+        <div class="info">
+            <dl class="card-info">
+                <dt>Name</dt>
+                <dd>
+                    <%- name%>
+                </dd>
+                <dt>Series</dt>
+                <dd>
+                    <%- series%>
+                </dd>
+                <dt>Description</dt>
+                <dd>
+                    Nothing
+                </dd>
+                <dt>Making progress</dt>
+                <dd>
+                    <div class="ui indicating progress" id="progress-bar">
+                        <div class="bar">
+                            <div class="progress"></div>
+                        </div>
+                    </div>
+                </dd>
+            </dl>
+            <div class="card-photo">
+                <img src="<%= imgSrc%>" alt="">
+            </div>
+        </div>
+        <iframe src="" id="ifr-making" />
+    </div>
+    <div class="foot-bar">
+        <button>Make</button>
+        <button>Close</button>
+    </div>
+</div>
