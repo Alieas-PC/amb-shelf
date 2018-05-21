@@ -5,7 +5,6 @@
 ## Software environment
   The LTS version of nodejs installed.
 
----------------
 # 
 # Change the values of the config attribute in the package.json according to your environment.
 ## config properties:
