@@ -15,7 +15,7 @@ block content
             div(class='btn-group hidden')
               button(onclick='markWithGot(\'' + e.name + '\')') Mark with Got
               button(onclick='openMakeModal(' + JSON.stringify(e) + ')') Make
-            div(class='has-got-flag has-mask')
+            div(class='has-mask ' + (e.isMarkedAsGot ? 'has-got-flag' : ''))
               div(class='overlay')
               img(src=e.imgSrc)
           
