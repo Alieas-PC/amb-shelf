@@ -5,8 +5,7 @@
 ## Software environment
   The LTS version of nodejs installed(not lower than nodejs 8).
 
-# 
-# You may change the config attributes in the package.json to use this program.
+## You may change the config attributes in the package.json to use this program.
 ## config properties:
   - amiiBinDirPath: where your amiibo bin files place in, based on this app directory.
   - makingProgram: where the pimiibo executable file place in, based on this app directory.
